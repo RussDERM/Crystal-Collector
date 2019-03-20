@@ -28,9 +28,16 @@
 // 
 //
 
+var playerNumber
 var goalNumber;
 var wins = 0;
 var losses = 0;
+
+//jQuery to write info to the doc
+$('#playerNumber').html('Your Score : ' + playerNumber);
+$('#goalNumber').html('Your Score : ' + goalNumber);
+$('#wins').html('Wins : ' + wins);
+$('#losses').html('Losses : ' + losses);
 
 // handles game loop
 var gameLoop = function () {
@@ -39,11 +46,44 @@ var gameLoop = function () {
     $(".gemContainer").empty();
 
     var gemImages = [
-        '..\Crystal-Collector\assets\images\Gem 1.png',
-        '..\Crystal-Collector\assets\images\Gem 2.png',
-        '..\Crystal-Collector\assets\images\Gem 3.png',
-        '..\Crystal-Collector\assets\images\Gem 4.png',
+        // '..\images\Gem 1.png',
+        // '..\images\Gem 2.png',
+        // '..\images\Gem 3.png',
+        // '..\images\Gem 4.png',
+        'https://picsum.photos/150/150/?random',
+        'https://picsum.photos/150/150/?random',
+        'https://picsum.photos/150/150/?random',
+        'https://picsum.photos/150/150/?random',
     ];
 
     goalNumber = Math.floor(Math.random() * 120) + 19;
+
+    for (var i = 0; i < 4; i++) {
+
+        var gemValue = Math.floor(Math.random() * 13) + 1;
+
+        var gem = $('<img>');
+        gem.attr({
+            'class': 'gem',
+            'gemValue': gemValue,
+            'src': gemImages[i],
+        });
+        $('.gemContainer').append(gem);
+        console.log(gemValue)
+        console.log(goalNumber)
+
+    }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
