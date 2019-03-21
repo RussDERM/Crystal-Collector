@@ -28,53 +28,90 @@
 // 
 //
 
-var playerNumber
-var goalNumber;
+var gemValue = 0;
+var goalNumber = "";
+var playerNumber = 0;
 var wins = 0;
 var losses = 0;
 
 //jQuery to write info to the doc
 $('#playerNumber').html('Your Score : ' + playerNumber);
-$('#goalNumber').html('Your Score : ' + goalNumber);
-$('#wins').html('Wins : ' + wins);
-$('#losses').html('Losses : ' + losses);
+$('#losses').html('Losses : ' + losses)
+$('#wins').html('Wins :' + wins);
+
 
 // handles game loop
-var gameLoop = function () {
+var startPlusLoop = function () {
+
+    //resets player number and writes it to the gameboard at the start of the game loop
+    playerNumber = 0;
+    $('#playerNumber').html('Your Score : ' + playerNumber);
 
     // handles control of gemContainer
     $(".gemContainer").empty();
 
     var gemImages = [
-        // '..\images\Gem 1.png',
-        // '..\images\Gem 2.png',
-        // '..\images\Gem 3.png',
-        // '..\images\Gem 4.png',
-        'https://picsum.photos/150/150/?random',
-        'https://picsum.photos/150/150/?random',
-        'https://picsum.photos/150/150/?random',
-        'https://picsum.photos/150/150/?random',
+        'https://i.imgur.com/rki6V2C.png',
+        'https://i.imgur.com/8M0wScC.png',
+        'https://i.imgur.com/PxdRaFz.png',
+        'https://i.imgur.com/BdMRktg.png',
     ];
 
     goalNumber = Math.floor(Math.random() * 120) + 19;
+    $('#goalNumber').html('Goal Number : ' + goalNumber);
 
     for (var i = 0; i < 4; i++) {
 
         var gemValue = Math.floor(Math.random() * 13) + 1;
 
-        var gem = $('<img>');
+        var gem = $('<div>');
         gem.attr({
             'class': 'gem',
             'gemValue': gemValue,
-            'src': gemImages[i],
         });
+        //change to attr if possible
+        gem.css({
+            'background-image': 'url("' + gemImages[i] + '")',
+            'background-size': 'cover'
+        })
+
+        console.log(gem)
+
         $('.gemContainer').append(gem);
         console.log(gemValue)
-        console.log(goalNumber)
+    }
+    console.log(goalNumber);
+}
+
+startPlusLoop();
+
+// Event Handlers
+// When clicked, playerNum grabs the gem value, and adds it to playerNumber
+
+$(document).on('click', '.gem', function () {
+
+    var playerNum = parseInt($(this).attr('gemValue'));
+
+    playerNumber += playerNum;
+
+    $('#playerNumber').html('Your Score : ' + playerNumber);
+
+
+    //once playerNum exceeds the goal number, player loses, score resets, losses are updated, reset function is called
+    if (playerNumber > goalNumber) {
+        losses++
+        playerNumber = 0;
+        $('#losses').html('Losses : ' + losses)
+        startPlusLoop()
+    }
+    else if (playerNumber === goalNumber) {
+        wins++;
+        playerNumber = 0;
+        $('#wins').html('Wins :' + wins);
+        startPlusLoop();
 
     }
-
-}
+});
 
 
 
